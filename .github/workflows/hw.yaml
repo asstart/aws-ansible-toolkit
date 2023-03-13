@@ -41,10 +41,10 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           if [ -f test-requirements.txt ]; then pip install -r test-requirements.txt; fi
-      - name: write inventory to file
-        env:
-          INVENTORY: ${{ secrets.INVENTORY }}
-        run: 'echo "$INVENTORY" > inventory'
+      # - name: write inventory to file
+      #   env:
+      #     INVENTORY: ${{ secrets.INVENTORY }}
+      #   run: 'echo "$INVENTORY" > inventory'
       - name: known_hosts scan
         run: |
           TMP_KNOWN_HOSTS=$(ssh-keyscan -H ${{ secrets.EC2_IP }}) && \
