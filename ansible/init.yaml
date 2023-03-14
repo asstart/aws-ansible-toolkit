@@ -33,7 +33,8 @@
 
     - name: Install specified python requirements
       ansible.builtin.pip:
-        requirements: /remote-requirements.txt
+        name:
+          - docker==6.0.0
 
     - name: Add Docker GPG key
       ansible.builtin.get_url:
