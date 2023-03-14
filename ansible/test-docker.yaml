@@ -3,6 +3,8 @@
   hosts: aws
   remote_user: ubuntu
   become: true
+  vars:
+    ansible_python_interpreter: "/opt/hostedtoolcache/Python/3.9.16/x64/bin/python"
 
   tasks:
     - name: Start test container
