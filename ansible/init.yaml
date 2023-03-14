@@ -5,6 +5,17 @@
   become: true
 
   tasks:
+
+    - name: Remove Docker if exists
+      apt:
+        name: 
+          - docker
+          - docker-engine
+          - docker.io
+          - containerd
+          - runc
+        state: absent
+
     - name: Update apt cache
       apt:
         update_cache: yes
@@ -17,28 +28,39 @@
           - curl
           - gnupg
           - lsb-release
+          - uidmap
+          - dbus-user-session
         state: present
 
     - name: Add Docker GPG key
-      apt_key:
+      ansible.builtin.get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /tmp/dockergpg
         state: present
-
+    
+    - name: De-Armor Docker GPG key
+      command:  gpg --dearmor < /tmp/dockergpg > /usr/share/keyrings/docker-archive-keyring.gpg
+      changed_when: false
+      no_log: true
+    
     - name: Add Docker repository
       apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu focal stable
         state: present
+    
+    - name: Update apt cache
+      apt:
+        update_cache: yes
 
     - name: Install Docker
       apt:
-        name: docker-ce
+        name: 
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
         state: present
-
-    - name: Add user to Docker group
-      user:
-        name: ubuntu
-        groups: docker
-        append: yes
 
     - name: Restrict access to Docker socket
       file:
@@ -46,18 +68,34 @@
         mode: '0660'
         owner: root
         group: docker
+    
+    - name: Configure Rootless Docker
+      command: dockerd-rootless-setuptool.sh install
+      changed_when: false
+      no_log: true
 
-    - name: Enable doker
+    - name: Add the user 'johnd' with a specific uid and a primary group of 'admin'
+      ansible.builtin.user:
+        name: docker
+        group: docker
+
+    - name: Enable docker
+      become: yes
+      become_user: docker
       ansible.builtin.systemd:
         name: docker.service
         enabled: true
     
     - name: Enable containerd
+      become: yes
+      become_user: docker
       ansible.builtin.systemd:
         name: containerd.service
         enabled: true
 
     - name: Restart Docker service
+      become: yes
+      become_user: docker
       systemd:
         name: docker
         state: restarted
