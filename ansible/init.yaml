@@ -40,7 +40,7 @@
     - name: De-Armor Docker GPG key
       command:  gpg --dearmor < /tmp/dockergpg > /usr/share/keyrings/docker-archive-keyring.gpg
       changed_when: false
-      no_log: true
+      # no_log: true
     
     - name: Add Docker repository
       apt_repository:
