@@ -1,7 +1,7 @@
 ---
 - name: Configure instance for running Docker
   hosts: aws
-  remote_user: ec2-user
+  remote_user: ubuntu
   become: true
 
   tasks:
@@ -36,7 +36,7 @@
 
     - name: Add user to Docker group
       user:
-        name: ec2-user
+        name: ubuntu
         groups: docker
         append: yes
 
