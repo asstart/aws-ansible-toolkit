@@ -27,8 +27,7 @@
           - curl
           - gnupg
           - lsb-release
-          - uidmap
-          - dbus-user-session
+          - acl
         state: present
 
     - name: Add Docker GPG key
