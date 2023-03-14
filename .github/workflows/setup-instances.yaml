@@ -73,3 +73,6 @@ jobs:
       - name: run test docker playbook
         run: |
           ansible-playbook -i inventory ansible/test-docker.yaml
+      - name: setup kafka
+        run: |
+          ansible-playbook -i inventory ansible/setup-kafka.yaml
