@@ -3,20 +3,25 @@
   hosts: aws
   remote_user: ubuntu
   become: true
-  become_user: docker
 
   tasks:
     - name: Start test container
+      become: true
+      become_user: docker
       docker_container:
         name: test-hw
         image: hello-world
     
     - name: Stop test container
+      become: true
+      become_user: docker
       docker_container:
         name: test-hw
         state: stopped
     
     - name: Remove test container
+      become: true
+      become_user: docker
       docker_container:
         name: test-hw
         state: absent
