@@ -30,6 +30,10 @@
           - acl
         state: present
 
+    - name: Install specified python requirements
+      ansible.builtin.pip:
+        requirements: /remote-requirements.txt
+
     - name: Add Docker GPG key
       ansible.builtin.get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
