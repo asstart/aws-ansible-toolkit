@@ -48,7 +48,7 @@
     - name: De-Armor Docker GPG key
       shell:  gpg --dearmor < /tmp/dockergpg > /etc/docker/keyrings/docker-archive-keyring.gpg
       changed_when: false
-      # no_log: true
+      no_log: true
     
     - name: Add Docker repository
       apt_repository:
@@ -79,9 +79,9 @@
     - name: Configure Rootless Docker
       command: dockerd-rootless-setuptool.sh install
       changed_when: false
-      no_log: true
+      # no_log: true
 
-    - name: Add the user 'johnd' with a specific uid and a primary group of 'admin'
+    - name: Add the user docker
       ansible.builtin.user:
         name: docker
         group: docker
