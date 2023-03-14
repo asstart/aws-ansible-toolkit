@@ -36,7 +36,6 @@
       ansible.builtin.get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
         dest: /tmp/dockergpg
-        state: present
     
     - name: De-Armor Docker GPG key
       command:  gpg --dearmor < /tmp/dockergpg > /usr/share/keyrings/docker-archive-keyring.gpg
