@@ -58,6 +58,9 @@ jobs:
           known_hosts: ${{ env.KNOWN_HOSTS }}
           # config: ${{ secrets.CONFIG }} # ssh_config; optional
           if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
-      - name: run playbook
+      - name: run init instance playbook
         run: |
           ansible-playbook -i inventory ansible/init.yaml
+      - name: run test docker playbook
+        run: |
+          ansible-playbook -i inventory ansible/test-docker.yaml
