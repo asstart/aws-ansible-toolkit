@@ -22,8 +22,8 @@
 
       - name: Create Security group
         amazon.aws.ec2_group:
-          aws_access_key: "lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY')"
-          aws_secret_key: "lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY')"
+          aws_access_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY') }}"
+          aws_secret_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY') }}"
           name: "{{ security_group }}"
           description: 'Security Group with SSH rule'
           region: "{{ region }}"
@@ -36,8 +36,8 @@
 
       - name: Launching EC2 instances
         community.aws.ec2_instance:
-          aws_access_key: "lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY')"
-          aws_secret_key: "lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY')"
+          aws_access_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY') }}"
+          aws_secret_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY') }}"
           # profile: "{{ aws_boto_profile }}
           key_name: "{{ keypair }}"
           security_group: "{{ security_group }}"
