@@ -1,0 +1,52 @@
+---
+  - name: Provision an EC2 Instance
+    hosts: local
+    connection: local
+    gather_facts: False
+    tags: provisioning
+    # Necessary Variables for creating/provisioning the EC2 Instance
+    vars:
+      instance_type: t2.micro # Select which type of Instance you need
+      security_group: webserver # Set the Security Group name
+      image: ami-0d1ddd83282187d18 # Change the AMI, from which you want to launch the server ( For testing I am using Ubuntu AMI)
+      region: eu-central-1 # Selet the Region where you want to launch the instance
+      keypair: main-key-pair # Make sure you have crated the keypair on aws and your passing here private key name
+      count: 1  # Number of instances to launch
+      volumes:
+              - device_name: /dev/sda1
+                volume_size: 10
+                volume_type: gp2  ## you can specify here different types
+
+    # Task that will be used to Launch/Create an EC2 Instance
+    tasks:
+
+      - name: Create Security group
+        amazon.aws.ec2_group:
+          aws_access_key: "lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY')"
+          aws_secret_key: "lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY')"
+          name: "{{ security_group }}"
+          description: 'Security Group with SSH rule'
+          region: "{{ region }}"
+          rules:
+            - proto: tcp
+              ports:
+              - 22
+              cidr_ip: 0.0.0.0/0
+              rule_desc: allow all on port 22 
+
+      - name: Launching EC2 instances
+        community.aws.ec2_instance:
+          aws_access_key: "lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY')"
+          aws_secret_key: "lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY')"
+          # profile: "{{ aws_boto_profile }}
+          key_name: "{{ keypair }}"
+          security_group: "{{ security_group }}"
+          instance_type: "{{ instance_type }}"
+          image_id: "{{ image }}" 
+          state: present
+          wait: yes
+          wait_timeout: 300
+          region: "{{ region }}"
+          detailed_monitoring: no
+          network:
+            assign_public_ip: yes
