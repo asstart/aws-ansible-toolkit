@@ -25,3 +25,8 @@
       community.docker.docker_container:
         name: test-hw
         state: absent
+    
+    - name: Remove test image
+      community.docker.docker_image:
+        state: absent
+        name: hello-world
