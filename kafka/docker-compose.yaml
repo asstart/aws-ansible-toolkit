@@ -39,3 +39,15 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_HEAP_OPTS: "-Xmx512M -Xms512M"
+
+    kafka-ui:
+      container_name: kafka-ui
+      image: provectuslabs/kafka-ui:latest
+      ports:
+        - 8080:8080
+      depends_on:
+        - kafka
+      environment:
+        KAFKA_CLUSTERS_0_NAME: local
+        KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+        DYNAMIC_CONFIG_ENABLED: 'true'
