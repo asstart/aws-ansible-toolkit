@@ -15,7 +15,7 @@
     
     - name: Copy docker-compose
       ansible.builtin.copy:
-        src: kafka/docker-compose.yaml
+        src: ../kafka/docker-compose.yaml
         dest: /app/kafka/docker-compose.yaml
         owner: docker
         group: docker
