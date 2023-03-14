@@ -62,6 +62,7 @@ jobs:
         run: |
           ansible-playbook -i inventory ansible/init.yaml
       - name: run test docker playbook
-        env: PYTHONPATH: ${{ env.PYTHONPATH }}:LD_LIBRARY_PATH
+        env:
+          PYTHONPATH: ${{ env.PYTHONPATH }}:LD_LIBRARY_PATH
         run: |
           ansible-playbook -i inventory ansible/test-docker.yaml
