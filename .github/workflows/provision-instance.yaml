@@ -23,18 +23,6 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           if [ -f test-requirements.txt ]; then pip install -r test-requirements.txt; fi
-      - name: known_hosts scan
-        run: |
-          TMP_KNOWN_HOSTS=$(ssh-keyscan -H ${{ secrets.EC2_IP }}) && \
-          echo KNOWN_HOSTS=$TMP_KNOWN_HOSTS >> $GITHUB_ENV
-        shell: bash
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.AWS_EC2_SSH_KEY }}
-          name: id_rsa # optional
-          known_hosts: ${{ env.KNOWN_HOSTS }}
-          if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
       - name: run init instance playbook
         run: |
           ansible-playbook -i inventory ansible/provision-ec2.yaml
