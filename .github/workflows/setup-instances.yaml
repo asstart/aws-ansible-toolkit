@@ -65,4 +65,4 @@ jobs:
         env:
           PYTHONPATH: ${{ env.LD_LIBRARY_PATH }}:${{ env.PYTHONPATH }}
         run: |
-          ansible-playbook -i inventory ansible/test-docker.yaml
+          ansible-playbook -i inventory ansible/test-docker.yaml -e 'ansible_python_interpreter=${{ env.pythonLocation }}'
