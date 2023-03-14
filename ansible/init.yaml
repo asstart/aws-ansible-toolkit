@@ -36,7 +36,7 @@
 
     - name: Add user to Docker group
       user:
-        name: your_username
+        name: ec2-user
         groups: docker
         append: yes
 
@@ -47,38 +47,18 @@
         owner: root
         group: docker
 
-    - name: Configure firewall rules
-      ufw:
-        rule: allow
-        port: 22
-        proto: tcp
-
-    - name: Secure SSH configuration
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: '^PasswordAuthentication'
-        line: 'PasswordAuthentication no'
-        state: present
-      notify:
-        - Restart sshd
-
-    - name: Generate new SSH key pair
-      openssh_keypair:
-        path: "{{ ssh_key_file }}"
-
-    - name: Add SSH public key to authorized_keys
-      authorized_key:
-        user: your_username
-        key: "{{ lookup('file', ssh_pubkey_file) }}"
-        state: present
+    - name: Enable doker
+      ansible.builtin.systemd:
+        name: docker.service
+        enabled: true
+    
+    - name: Enable containerd
+      ansible.builtin.systemd:
+        name: containerd.service
+        enabled: true
 
     - name: Restart Docker service
       systemd:
         name: docker
         state: restarted
 
-  handlers:
-    - name: Restart sshd
-      service:
-        name: sshd
-        state: restarted

@@ -60,4 +60,4 @@ jobs:
           if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
       - name: run playbook
         run: |
-          ansible-playbook -i inventory ansible/hello-world.yaml
+          ansible-playbook -vvvv -i inventory ansible/hello-world.yaml
