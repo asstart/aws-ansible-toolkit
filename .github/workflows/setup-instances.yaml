@@ -72,4 +72,4 @@ jobs:
           ansible-playbook -i inventory ansible/init.yaml
       - name: run test docker playbook
         run: |
-          ansible-playbook -i inventory ansible/test-docker.yaml'
+          ansible-playbook -i inventory ansible/test-docker.yaml
