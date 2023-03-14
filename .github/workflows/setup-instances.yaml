@@ -71,4 +71,4 @@ jobs:
         env:
           PYTHONPATH: ${{ env.LD_LIBRARY_PATH }}:${{ env.PYTHONPATH }}
         run: |
-          ansible-playbook -i inventory ansible/test-docker.yaml -e 'ansible_python_interpreter=${{ env.pythonLocation }}'
+          ansible-playbook -i inventory ansible/test-docker.yaml -e 'ansible_python_interpreter=/opt/hostedtoolcache/Python/3.9.16/x64/bin/python'
