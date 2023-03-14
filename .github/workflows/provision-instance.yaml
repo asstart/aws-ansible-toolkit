@@ -39,5 +39,5 @@ jobs:
         run: |
           ansible-playbook -i inventory ansible/provision-ec2.yaml
         env:
-          AWS_EC2_ACCESS_KEY: ${{ secerts.AWS_EC2_ACCESS_KEY }}
-          AWS_EC2_SECRET_KEY: ${{ secerts.AWS_EC2_SECRET_KEY }}
+          AWS_EC2_ACCESS_KEY: ${{ secrets.AWS_EC2_ACCESS_KEY }}
+          AWS_EC2_SECRET_KEY: ${{ secrets.AWS_EC2_SECRET_KEY }}
