@@ -36,15 +36,21 @@
       ansible.builtin.get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
         dest: /tmp/dockergpg
+
+    - name: Create a directory for keyring if it does not exist
+      ansible.builtin.file:
+        path: /etc/docker/keyrings
+        state: directory
+        mode: '0755'
     
     - name: De-Armor Docker GPG key
-      command:  gpg --dearmor < /tmp/dockergpg > /usr/share/keyrings/docker-archive-keyring.gpg
+      command:  gpg --dearmor < /tmp/dockergpg > /etc/docker/keyrings/docker-archive-keyring.gpg
       changed_when: false
       # no_log: true
     
     - name: Add Docker repository
       apt_repository:
-        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu focal stable
+        repo: deb [arch=amd64 signed-by=/etc/docker/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu focal stable
         state: present
     
     - name: Update apt cache
