@@ -1,0 +1,84 @@
+---
+- name: Configure instance for running Docker
+  hosts: aws
+  remote_user: ec2-user
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install dependencies for Docker
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Add user to Docker group
+      user:
+        name: your_username
+        groups: docker
+        append: yes
+
+    - name: Restrict access to Docker socket
+      file:
+        path: /var/run/docker.sock
+        mode: '0660'
+        owner: root
+        group: docker
+
+    - name: Configure firewall rules
+      ufw:
+        rule: allow
+        port: 22
+        proto: tcp
+
+    - name: Secure SSH configuration
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PasswordAuthentication'
+        line: 'PasswordAuthentication no'
+        state: present
+      notify:
+        - Restart sshd
+
+    - name: Generate new SSH key pair
+      openssh_keypair:
+        path: "{{ ssh_key_file }}"
+
+    - name: Add SSH public key to authorized_keys
+      authorized_key:
+        user: your_username
+        key: "{{ lookup('file', ssh_pubkey_file) }}"
+        state: present
+
+    - name: Restart Docker service
+      systemd:
+        name: docker
+        state: restarted
+
+  handlers:
+    - name: Restart sshd
+      service:
+        name: sshd
+        state: restarted
