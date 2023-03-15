@@ -1,42 +1,33 @@
 ---
-  - name: Provision an EC2 Instance
-    hosts: 127.0.0.1
-    connection: local
-    gather_facts: False
-    tags: provisioning
-    # Task that will be used to Launch/Create an EC2 Instance
-    tasks:
+- name: Create Security group
+  amazon.aws.ec2_group:
+    aws_access_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY') }}"
+    aws_secret_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY') }}"
+    name: "{{ security_group }}"
+    description: 'Security Group with SSH rule'
+    region: "{{ region }}"
+    rules:
+      - proto: tcp
+        ports:
+        - 22
+        cidr_ip: 0.0.0.0/0
+        rule_desc: allow all on port 22 
 
-      - name: Create Security group
-        amazon.aws.ec2_group:
-          aws_access_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY') }}"
-          aws_secret_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY') }}"
-          name: "{{ PROVISION_EC2_SECURITY_GROUP_NAME }}"
-          description: 'Security Group with SSH rule'
-          region: "{{ PROVISION_EC2_REGION }}"
-          rules:
-            - proto: tcp
-              ports:
-              - 22
-              cidr_ip: 0.0.0.0/0
-              rule_desc: allow all on port 22 
-
-      - name: Launching EC2 instances
-        community.aws.ec2_instance:
-          aws_access_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY') }}"
-          aws_secret_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY') }}"
-          key_name: "{{ PROVISION_EC2_KEYPAIR }}"
-          security_group: "{{ PROVISION_EC2_SECURITY_GROUP_NAME }}"
-          instance_type: "{{ PROVISION_EC2_INSTANCE_TYPE }}"
-          image_id: "{{ PROVISION_EC2_IMAGE_ID }}" 
-          state: present
-          wait: yes
-          wait_timeout: 300
-          region: "{{ PROVISION_EC2_REGION }}"
-          detailed_monitoring: no
-          network:
-            assign_public_ip: yes
-          tags:
-            Name: "{{ PROVISION_EC2_INSTANCE_NAME }}"
-
-
+- name: Launching EC2 instances
+  community.aws.ec2_instance:
+    aws_access_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY') }}"
+    aws_secret_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY') }}"
+    # profile: "{{ aws_boto_profile }}
+    key_name: "{{ keypair }}"
+    security_group: "{{ security_group }}"
+    instance_type: "{{ instance_type }}"
+    image_id: "{{ image }}" 
+    state: present
+    wait: yes
+    wait_timeout: 300
+    region: "{{ region }}"
+    detailed_monitoring: no
+    network:
+      assign_public_ip: yes
+    tags:
+      Name: test-ec2
