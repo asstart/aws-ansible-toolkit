@@ -29,7 +29,7 @@ jobs:
           AWS_SSH_PRIVATE_KEY_PATH: ~/.ssh/id_rsa
         with:
           key: ${{ secrets.AWS_EC2_SSH_KEY }}
-          name: ${{ env.AWS_SSH_PRIVATE_KEY_PATH }}
+          name: id_rsa
           # can't populate this on this stage. Will be configured later in role: setup_ec2_dynamic_hosts
           known_hosts: unnecessary
       - name: run init instance playbook
