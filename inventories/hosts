@@ -1,5 +1,5 @@
 [provision_single_instance_kafka]
 127.0.0.1
 
-[provision_ec2]
+[provision_default_ec2]
 127.0.0.1

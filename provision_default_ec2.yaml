@@ -1,5 +1,5 @@
 ---
-- hosts: provision_ec2
+- hosts: provision_default_ec2
   connection: local
   roles:
     - role: provision_ec2
