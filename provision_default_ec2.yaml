@@ -1,5 +1,5 @@
 ---
-- hosts: 127.0.0.1
+- hosts: provision_ec2
   connection: local
   roles:
     - role: provision_ec2
