@@ -23,6 +23,11 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           if [ -f test-requirements.txt ]; then pip install -r test-requirements.txt; fi
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.AWS_EC2_SSH_KEY }}
+          name: id_rsa # optional
       - name: run init instance playbook
         run: |
           ansible-playbook provision_kafka_ec2.yaml -i inventories -e 'ansible_python_interpreter=${{ env.Python_ROOT_DIR }}/bin/python'

@@ -1,0 +1,28 @@
+---
+tasks:
+  - name: Retrieve instance IP
+    ec2_instance_info:
+    filters:
+      "tag:Name": "{{ PROVISION_EC2_INSTANCE_NAME }}"
+      image-id: "{{ PROVISION_EC2_IMAGE_ID }}" 
+      instance.group-name: "{{ PROVISION_EC2_SECURITY_GROUP_NAME }}"
+      instance-state-name: running
+      instance-type: "{{ PROVISION_EC2_INSTANCE_TYPE }}"
+      availability-zone: "{{ PROVISION_EC2_REGION }}*"
+    reister: ec2_info
+  
+    - name: Wait for SSH
+      wait_for:
+        host: "{{ ec2_info.results['instances'][0]['public_ip_address'] }}"
+        port: 22
+        delay: 10
+        timeout: 320
+        state: started
+  
+  - name: Create dynamic inventory group
+    add_host:
+      name: "{{ PROVISION_EC2_INSTANCE_NAME }}"
+      groups: dynamic_hosts
+      ansible_ssh_host: "{{ ec2_info.results['instances'][0]['public_ip_address']}}"
+      ansible_ssh_private_key_file: '{{ id_rsa }}'
+      ansible_ssh_user: "{{ ubuntu }}"

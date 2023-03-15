@@ -3,3 +3,12 @@
   connection: local
   roles:
     - role: provision_ec2
+
+- hosts: provision_kafka
+  connection: local
+  roles:
+    - role: setup_ec2_dynamic_hosts
+
+- hosts: dynamic_hosts
+  roles:
+    - role: setup_ec2
