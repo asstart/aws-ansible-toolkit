@@ -1,27 +1,26 @@
 ---
-tasks:
-  - name: Start test container
-    become: true
-    become_user: docker
-    community.docker.docker_container:
-      name: test-hw
-      image: hello-world
-  
-  - name: Stop test container
-    become: true
-    become_user: docker
-    community.docker.docker_container:
-      name: test-hw
-      state: stopped
-  
-  - name: Remove test container
-    become: true
-    become_user: docker
-    community.docker.docker_container:
-      name: test-hw
-      state: absent
-  
-  - name: Remove test image
-    community.docker.docker_image:
-      state: absent
-      name: hello-world
+- name: Start test container
+  become: true
+  become_user: docker
+  community.docker.docker_container:
+    name: test-hw
+    image: hello-world
+
+- name: Stop test container
+  become: true
+  become_user: docker
+  community.docker.docker_container:
+    name: test-hw
+    state: stopped
+
+- name: Remove test container
+  become: true
+  become_user: docker
+  community.docker.docker_container:
+    name: test-hw
+    state: absent
+
+- name: Remove test image
+  community.docker.docker_image:
+    state: absent
+    name: hello-world

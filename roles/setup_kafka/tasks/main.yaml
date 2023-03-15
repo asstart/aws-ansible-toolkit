@@ -1,27 +1,26 @@
 ---
-tasks:
-  - name: Create a directory for kafka
-    ansible.builtin.file:
-      path: /app/kafka/
-      state: directory
-      mode: '0755'
-      owner: docker
-      group: docker
-  
-  - name: Copy docker-compose
-    ansible.builtin.copy:
-      src: docker-compose.yaml
-      dest: /app/kafka/docker-compose.yaml
-      owner: docker
-      group: docker
-      mode: '0644'
-  
-  - name: Tear down existing services
-    community.docker.docker_compose:
-      project_src: /app/kafka
-      state: absent
+- name: Create a directory for kafka
+  ansible.builtin.file:
+    path: /app/kafka/
+    state: directory
+    mode: '0755'
+    owner: docker
+    group: docker
 
-  - name: Create and start services
-    community.docker.docker_compose:
-      project_src: /app/kafka
-    register: output
+- name: Copy docker-compose
+  ansible.builtin.copy:
+    src: docker-compose.yaml
+    dest: /app/kafka/docker-compose.yaml
+    owner: docker
+    group: docker
+    mode: '0644'
+
+- name: Tear down existing services
+  community.docker.docker_compose:
+    project_src: /app/kafka
+    state: absent
+
+- name: Create and start services
+  community.docker.docker_compose:
+    project_src: /app/kafka
+  register: output
