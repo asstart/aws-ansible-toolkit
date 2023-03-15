@@ -1,0 +1,5 @@
+---
+- hosts: provision_kafka
+  connection: local
+  roles:
+    - role: provision_ec2
