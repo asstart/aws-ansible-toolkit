@@ -6,14 +6,14 @@
     aws_secret_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY') }}"
     filters:
       "tag:Name": "{{ PROVISION_EC2_INSTANCE_NAME }}"
-      image-id: "{{ PROVISION_EC2_IMAGE_ID }}" 
+      image-id: "{{ PROVISION_EC2_IMAGE_ID }}"
       instance.group-name: "{{ PROVISION_EC2_SECURITY_GROUP_NAME }}"
       instance-state-name: running
       instance-type: "{{ PROVISION_EC2_INSTANCE_TYPE }}"
   register: ec2_info
 
 - name: Wait for SSH
-  wait_for:
+  ansible.builtin.wait_for:
     host: "{{ ec2_info.instances[0]['public_ip_address'] }}"
     port: 22
     delay: 10
@@ -21,15 +21,15 @@
     state: started
 
 - name: Create dynamic inventory group
-  add_host:
+  ansible.builtin.add_host:
     name: "{{ PROVISION_EC2_INSTANCE_NAME }}"
     groups: dynamic_hosts
     ansible_ssh_host: "{{ ec2_info.instances[0]['public_ip_address'] }}"
     ansible_ssh_private_key_file: "{{ SSH_PRIVATE_KEY_PATH }}"
     # ansible_ssh_user: ubuntu
-  
+
 - name: Setup known_hosts
-  known_hosts:
+  ansible.builtin.known_hosts:
     name: "{{ ec2_info.instances[0]['public_ip_address'] }}"
     state: present
     key: "{{ lookup('pipe', 'ssh-keyscan {{ ec2_info.instances[0].public_ip_address }}') }}"

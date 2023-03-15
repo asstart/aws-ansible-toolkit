@@ -1,7 +1,7 @@
 ---
 - name: Remove Docker if exists
   ansible.builtin.apt:
-    name: 
+    name:
       - docker
       - docker-engine
       - docker.io
@@ -11,7 +11,7 @@
 
 - name: Update apt cache
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
 
 - name: Install dependencies for Docker
   ansible.builtin.apt:
@@ -56,11 +56,11 @@
 
 - name: Update apt cache
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
 
 - name: Install Docker
   ansible.builtin.apt:
-    name: 
+    name:
       - docker-ce
       - docker-ce-cli
       - containerd.io
@@ -94,4 +94,3 @@
   ansible.builtin.systemd:
     name: docker
     state: restarted
-
