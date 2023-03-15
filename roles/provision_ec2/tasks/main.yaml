@@ -3,9 +3,9 @@
   amazon.aws.ec2_group:
     aws_access_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY') }}"
     aws_secret_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY') }}"
-    name: "{{ security_group }}"
+    name: "{{ PROVISION_EC2_SECURITY_GROUP_NAME }}"
     description: 'Security Group with SSH rule'
-    region: "{{ region }}"
+    region: "{{ PROVISION_EC2_REGION }}"
     rules:
       - proto: tcp
         ports:
@@ -17,17 +17,16 @@
   community.aws.ec2_instance:
     aws_access_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY') }}"
     aws_secret_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY') }}"
-    # profile: "{{ aws_boto_profile }}
-    key_name: "{{ keypair }}"
-    security_group: "{{ security_group }}"
-    instance_type: "{{ instance_type }}"
-    image_id: "{{ image }}" 
+    key_name: "{{ PROVISION_EC2_KEYPAIR }}"
+    security_group: "{{ PROVISION_EC2_SECURITY_GROUP_NAME }}"
+    instance_type: "{{ PROVISION_EC2_INSTANCE_TYPE }}"
+    image_id: "{{ PROVISION_EC2_IMAGE_ID }}" 
     state: present
     wait: yes
     wait_timeout: 300
-    region: "{{ region }}"
+    region: "{{ PROVISION_EC2_REGION }}"
     detailed_monitoring: no
     network:
       assign_public_ip: yes
     tags:
-      Name: test-ec2
+      Name: "{{ PROVISION_EC2_INSTANCE_NAME }}"
