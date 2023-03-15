@@ -16,5 +16,6 @@ PROVISION_EC2_KEYPAIR: main-key-pair
 # Number of instances to launch
 PROVISION_EC2_NUMBER_OF_INSTANCES: 1
 SSH_PRIVATE_KEY_PATH: "{{ lookup('ansible.builtin.env', 'AWS_SSH_PRIVATE_KEY_PATH', default = '~/.ssh/id_rsa') }}"
+SSH_USER: ubuntu
 # This need to run local ansible role on Github Actions propely
 ansible_python_interpreter: "{{ lookup('ansible.builtin.env', 'Python_ROOT_DIR') }}/bin/python"
