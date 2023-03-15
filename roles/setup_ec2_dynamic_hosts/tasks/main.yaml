@@ -1,13 +1,15 @@
 ---
 - name: Retrieve instance IP
   ec2_instance_info:
+    region: "{{ PROVISION_EC2_REGION }}"
+    aws_access_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_ACCESS_KEY') }}"
+    aws_secret_key: "{{ lookup('ansible.builtin.env', 'AWS_EC2_SECRET_KEY') }}"
     filters:
       "tag:Name": "{{ PROVISION_EC2_INSTANCE_NAME }}"
       image-id: "{{ PROVISION_EC2_IMAGE_ID }}" 
       instance.group-name: "{{ PROVISION_EC2_SECURITY_GROUP_NAME }}"
       instance-state-name: running
       instance-type: "{{ PROVISION_EC2_INSTANCE_TYPE }}"
-      availability-zone: "{{ PROVISION_EC2_REGION }}*"
   register: ec2_info
 
 - name: Wait for SSH
