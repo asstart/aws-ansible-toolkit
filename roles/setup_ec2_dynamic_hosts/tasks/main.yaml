@@ -1,13 +1,13 @@
 ---
 - name: Retrieve instance IP
   ec2_instance_info:
-  filters:
-    "tag:Name": "{{ PROVISION_EC2_INSTANCE_NAME }}"
-    image-id: "{{ PROVISION_EC2_IMAGE_ID }}" 
-    instance.group-name: "{{ PROVISION_EC2_SECURITY_GROUP_NAME }}"
-    instance-state-name: running
-    instance-type: "{{ PROVISION_EC2_INSTANCE_TYPE }}"
-    availability-zone: "{{ PROVISION_EC2_REGION }}*"
+    filters:
+      "tag:Name": "{{ PROVISION_EC2_INSTANCE_NAME }}"
+      image-id: "{{ PROVISION_EC2_IMAGE_ID }}" 
+      instance.group-name: "{{ PROVISION_EC2_SECURITY_GROUP_NAME }}"
+      instance-state-name: running
+      instance-type: "{{ PROVISION_EC2_INSTANCE_TYPE }}"
+      availability-zone: "{{ PROVISION_EC2_REGION }}*"
   reister: ec2_info
 
 - name: Wait for SSH
