@@ -8,7 +8,7 @@
       instance-state-name: running
       instance-type: "{{ PROVISION_EC2_INSTANCE_TYPE }}"
       availability-zone: "{{ PROVISION_EC2_REGION }}*"
-  reister: ec2_info
+  register: ec2_info
 
 - name: Wait for SSH
   wait_for:
