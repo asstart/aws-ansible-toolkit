@@ -31,7 +31,7 @@ jobs:
           known_hosts: unnecessary # can't populate this on this stage as I don't know IP yet
       - name: run init instance playbook
         run: |
-          ansible-playbook provision_kafka_ec2.yaml -i inventories -e 'ansible_python_interpreter=${{ env.Python_ROOT_DIR }}/bin/python'
+          ansible-playbook provision_kafka_ec2.yaml -i inventories'
         env:
           AWS_EC2_ACCESS_KEY: ${{ secrets.AWS_EC2_ACCESS_KEY }}
           AWS_EC2_SECRET_KEY: ${{ secrets.AWS_EC2_SECRET_KEY }}
