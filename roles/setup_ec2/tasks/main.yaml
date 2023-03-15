@@ -1,16 +1,96 @@
-# ansible_python_interpreter: "{{ lookup('ansible.builtin.env', 'Python_ROOT_DIR') }}/bin/python"
-# # Instance name
-# PROVISION_EC2_INSTANCE_NAME: default-ec2-instance
-# # Type of instance that will be provisioned
-# PROVISION_EC2_INSTANCE_TYPE: t2.micro
-# # Name of used security group
-# PROVISION_EC2_SECURITY_GROUP_NAME: default-security-group
-# # Name of image that will be used to launch the server
-# PROVISION_EC2_IMAGE_ID: ami-0d1ddd83282187d18
-# # Region where server will be provisioned
-# PROVISION_EC2_REGION: eu-central-1
-# # Name of key pair to connect to aws
-# PROVISION_EC2_KEYPAIR: main-key-pair
-# # Number of instances to launch
-# PROVISION_EC2_NUMBER_OF_INSTANCES: 1
-# SSH_PRIVATE_KEY_PATH: "{{ lookup('ansible.builtin.env', 'AWS_SSH_PRIVATE_KEY_PATH'), default = '~/.ssh/id_rsa' }}"
+---
+- name: Remove Docker if exists
+  ansible.builtin.apt:
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install dependencies for Docker
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - acl
+      - python3-pip
+    state: present
+
+- name: Install specified python requirements
+  ansible.builtin.pip:
+    name:
+      - docker==6.0.0
+      - docker-compose>=1.7.0,<2.0.0
+
+- name: Add Docker GPG key
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /tmp/dockergpg
+
+- name: Create a directory for keyring if it does not exist
+  ansible.builtin.file:
+    path: /etc/docker/keyrings
+    state: directory
+    mode: '0755'
+    owner: ubuntu
+    group: ubuntu
+
+- name: De-Armor Docker GPG key
+  ansible.builtin.shell: gpg --dearmor < /tmp/dockergpg > /etc/docker/keyrings/docker-archive-keyring.gpg
+  changed_when: false
+  no_log: true
+
+- name: Add Docker repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64 signed-by=/etc/docker/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install Docker
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+
+- name: Restrict access to Docker socket
+  ansible.builtin.file:
+    path: /var/run/docker.sock
+    mode: '0660'
+    owner: root
+    group: docker
+
+- name: Add the user docker
+  ansible.builtin.user:
+    name: docker
+    group: docker
+
+- name: Enable docker
+  ansible.builtin.systemd:
+    name: docker.service
+    enabled: true
+
+- name: Enable containerd
+  ansible.builtin.systemd:
+    name: containerd.service
+    enabled: true
+
+- name: Restart Docker service
+  ansible.builtin.systemd:
+    name: docker
+    state: restarted
