@@ -1,3 +1,6 @@
 ---
-# Instance name
-PROVISION_EC2_INSTANCE_NAME: kafka-ec2-instance
+provision_kafka:
+  hosts:
+    127.0.0.1:
+      # Instance name
+      PROVISION_EC2_INSTANCE_NAME: kafka-ec2-instance
