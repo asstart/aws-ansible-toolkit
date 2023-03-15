@@ -34,7 +34,7 @@ jobs:
           known_hosts: unnecessary
       - name: run init instance playbook
         run: |
-          ansible-playbook provision_kafka_ec2.yaml -i inventories/hosts
+          ansible-playbook provision_kafka_ec2.yaml -i inventories
         env:
           AWS_EC2_ACCESS_KEY: ${{ secrets.AWS_EC2_ACCESS_KEY }}
           AWS_EC2_SECRET_KEY: ${{ secrets.AWS_EC2_SECRET_KEY }}
