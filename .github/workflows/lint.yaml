@@ -13,4 +13,4 @@ jobs:
       - name: Run ansible-lint
         uses: ansible-community/ansible-lint-action@v6.0.2
         with:
-          args: "." # my ansible files in a folder
+          path: "." # my ansible files in a folder
