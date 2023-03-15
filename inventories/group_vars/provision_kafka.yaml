@@ -2,4 +2,4 @@
 provision_kafka:
 # Instance name
 PROVISION_EC2_INSTANCE_NAME: kafka-ec2-instance
-ansible_python_interpreter: "{{ lookup('ansible.builtin.env', Python_ROOT_DIR) }}/bin/python }}"
+ansible_python_interpreter: "{{ lookup('ansible.builtin.env', 'Python_ROOT_DIR') }}/bin/python }}"
