@@ -1,9 +1,8 @@
 ---
-provision_default_ec2:
+provision_single_instance_kafka:
 
-ansible_python_interpreter: "{{ lookup('ansible.builtin.env', 'Python_ROOT_DIR') }}/bin/python"
 # Instance name
-PROVISION_EC2_INSTANCE_NAME: default-ec2-instance
+PROVISION_EC2_INSTANCE_NAME: kafka-ec2-instance
 # Type of instance that will be provisioned
 PROVISION_EC2_INSTANCE_TYPE: t2.micro
 # Name of used security group
@@ -17,3 +16,5 @@ PROVISION_EC2_KEYPAIR: main-key-pair
 # Number of instances to launch
 PROVISION_EC2_NUMBER_OF_INSTANCES: 1
 SSH_PRIVATE_KEY_PATH: "{{ lookup('ansible.builtin.env', 'AWS_SSH_PRIVATE_KEY_PATH'), default = '~/.ssh/id_rsa' }}"
+# This need to run local ansible role on Github Actions propely
+ansible_python_interpreter: "{{ lookup('ansible.builtin.env', 'Python_ROOT_DIR') }}/bin/python"
