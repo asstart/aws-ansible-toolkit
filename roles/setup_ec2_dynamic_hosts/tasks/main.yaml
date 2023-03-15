@@ -26,4 +26,4 @@
     groups: dynamic_hosts
     ansible_ssh_host: "{{ ec2_info.instances[0]['public_ip_address']}}"
     ansible_ssh_private_key_file: id_rsa
-    ansible_ssh_user: "{{ ubuntu }}"
+    ansible_ssh_user: ubuntu
