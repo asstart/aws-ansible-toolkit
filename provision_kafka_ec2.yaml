@@ -1,10 +1,10 @@
 ---
-- hosts: provision_kafka
+- hosts: provision_single_instance_kafka
   connection: local
   roles:
     - role: provision_ec2
 
-- hosts: provision_kafka
+- hosts: provision_single_instance_kafka
   connection: local
   roles:
     - role: setup_ec2_dynamic_hosts
@@ -22,4 +22,4 @@
 - hosts: dynamic_hosts
   become: true
   roles:
-    - role: setup_kafka
+    - role: setup_single_instance_kafka

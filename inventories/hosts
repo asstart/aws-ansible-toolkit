@@ -1,2 +1,2 @@
-[provision_kafka]
+[provision_single_instance_kafka]
 127.0.0.1

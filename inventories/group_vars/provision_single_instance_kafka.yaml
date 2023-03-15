@@ -1,0 +1,6 @@
+---
+provision_single_instance_kafka:
+  # This need to run local ansible role on Github Actions propely
+  ansible_python_interpreter: "{{ lookup('ansible.builtin.env', 'Python_ROOT_DIR') }}/bin/python"
+  # Instance name
+  PROVISION_EC2_INSTANCE_NAME: kafka-ec2-instance
