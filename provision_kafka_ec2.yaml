@@ -10,5 +10,6 @@
     - role: setup_ec2_dynamic_hosts
 
 - hosts: dynamic_hosts
+  become: true
   roles:
     - role: setup_ec2
