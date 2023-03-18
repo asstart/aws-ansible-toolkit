@@ -1,4 +1,6 @@
 ---
+vars:
+  PROVISION_EC2_INSTANCE_NAME: kafka-ec2-instance
 - hosts: provision_single_instance_kafka
   connection: local
   roles:
