@@ -1,27 +1,15 @@
 ---
-vars:
-  PROVISION_EC2_INSTANCE_NAME: kafka-ec2-instance
 - hosts: provision_single_instance_kafka
   connection: local
+  vars:
+    PROVISION_EC2_INSTANCE_NAME: kafka-ec2-instance
   roles:
     - role: provision_ec2
-
-- hosts: provision_single_instance_kafka
-  connection: local
-  roles:
     - role: setup_ec2_dynamic_hosts
 
 - hosts: dynamic_hosts
   become: true
   roles:
     - role: setup_ec2
-
-- hosts: dynamic_hosts
-  become: true
-  roles:
     - role: test_ec2
-
-- hosts: dynamic_hosts
-  become: true
-  roles:
     - role: setup_single_instance_kafka
