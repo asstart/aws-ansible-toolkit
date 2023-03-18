@@ -1,6 +1,4 @@
 ---
-provision_single_instance_kafka:
-
 # Instance name
 PROVISION_EC2_INSTANCE_NAME: kafka-ec2-instance
 # Type of instance that will be provisioned

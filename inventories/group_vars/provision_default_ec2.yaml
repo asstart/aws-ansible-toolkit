@@ -1,5 +1,4 @@
 ---
-provision_default_ec2:
 # Instance name
 PROVISION_EC2_INSTANCE_NAME: default-ec2-instance
 # Type of instance that will be provisioned
