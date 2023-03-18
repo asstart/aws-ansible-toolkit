@@ -21,7 +21,7 @@
     security_group: "{{ PROVISION_EC2_SECURITY_GROUP_NAME }}"
     instance_type: "{{ PROVISION_EC2_INSTANCE_TYPE }}"
     image_id: "{{ PROVISION_EC2_IMAGE_ID }}"
-    state: present
+    state: started
     wait: true
     wait_timeout: 300
     region: "{{ PROVISION_EC2_REGION }}"
