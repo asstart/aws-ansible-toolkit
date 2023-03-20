@@ -12,11 +12,21 @@
           - 22
         cidr_ip: 0.0.0.0/0
         rule_desc: allow all on port 22
+      - proto: tcp
+        ports:
+          - 443
+        cidr_ip: 0.0.0.0/0
+        rule_desc: allow all on port 443
     rules_egress:
       - proto: tcp
         ports:
-          - 80
-        rule_desc: allow outbound http requests
+          - 22
+        rule_desc: ssh
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports:
+          - 443
+        rule_desc: ssh
         cidr_ip: 0.0.0.0/0
 
 - name: Launching EC2 instances
