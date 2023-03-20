@@ -24,7 +24,7 @@
   community.docker.docker_compose:
     project_src: /app/inbox-bot
   environment:
-    KAFKA_BROKERS: "{{ lookup('ansible.builtin.env', 'KAFKA_BROKERS', default = 'localhost:29092') }}"
+    KAFKA_BROKERS: "{{ lookup('ansible.builtin.env', 'KAFKA_BROKERS') }}"
     TG_BOT_TOKEN: "{{ lookup('ansible.builtin.env', 'INBOX_BOT_TOKEN') }}"
     NOTION_TOKEN: "{{ lookup('ansible.builtin.env', 'INBOX_NOTION_TOKEN') }}"
     NOTION_DB: "{{ lookup('ansible.builtin.env', 'INBOX_NOTION_DB') }}"
