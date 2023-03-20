@@ -46,6 +46,7 @@ services:
     image: javaster/tg-inbox-proxy:latest
     environment:
       TG_BOT_TOKEN: ${TG_BOT_TOKEN}
+      KAFKA_BROKERS: ${KAFKA_BROKERS}
   publisher:
     container_name: notion-inbox-publisher
     depends_on:
