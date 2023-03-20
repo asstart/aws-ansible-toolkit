@@ -17,6 +17,11 @@
           - 443
         cidr_ip: 0.0.0.0/0
         rule_desc: allow all on port 443
+      - proto: tcp
+        ports:
+          - 80
+        cidr_ip: 0.0.0.0/0
+        rule_desc: allow all on port 80
     rules_egress:
       - proto: tcp
         ports:
@@ -26,8 +31,13 @@
       - proto: tcp
         ports:
           - 443
-        rule_desc: ssh
+        rule_desc: https
         cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports:
+          - 80
+        cidr_ip: 0.0.0.0/0
+        rule_desc: http
 
 - name: Launching EC2 instances
   community.aws.ec2_instance:
