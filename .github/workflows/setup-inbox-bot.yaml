@@ -1,0 +1,43 @@
+# This is a basic workflow to help you get started with Actions
+name: Instal inbox bot
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  run-playbook:
+    # The validate Job need to be sucessfull
+    # needs: [ validate ]
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Install dependencies Including Ansible
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f test-requirements.txt ]; then pip install -r test-requirements.txt; fi
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        env:
+          AWS_SSH_PRIVATE_KEY_PATH: ~/.ssh/id_rsa
+        with:
+          key: ${{ secrets.AWS_EC2_SSH_KEY }}
+          name: id_rsa
+          # can't populate this on this stage. Will be configured later in role: setup_ec2_dynamic_hosts
+          known_hosts: unnecessary
+      - name: run init instance playbook
+        run: |
+          ansible-playbook -i inventories setup_inbox_bot.yaml
+        env:
+          AWS_EC2_ACCESS_KEY: ${{ secrets.AWS_EC2_ACCESS_KEY }}
+          AWS_EC2_SECRET_KEY: ${{ secrets.AWS_EC2_SECRET_KEY }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB: ${{ secrets.NOTION_DB }}
