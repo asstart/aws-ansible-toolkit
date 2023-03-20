@@ -44,9 +44,13 @@ services:
     depends_on:
       - kafka
     image: javaster/tg-inbox-proxy:latest
-
+    environment:
+      TG_BOT_TOKEN: ${TG_BOT_TOKEN}
   publisher:
     container_name: notion-inbox-publisher
     depends_on:
       - kafka
     image: javaster/notion-inbox-publisher:latest
+    environment:
+      NOTION_TOKEN: ${NOTION_TOKEN}
+      NOTION_DB: ${NOTION_DB}
