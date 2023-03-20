@@ -54,3 +54,4 @@ services:
     environment:
       NOTION_TOKEN: ${NOTION_TOKEN}
       NOTION_DB: ${NOTION_DB}
+      KAFKA_BROKERS: ${KAFKA_BROKERS}
