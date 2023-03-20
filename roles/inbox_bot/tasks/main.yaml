@@ -1,0 +1,30 @@
+---
+- name: Create a directory for bot apps
+  ansible.builtin.file:
+    path: /app/inbox-bot/
+    state: directory
+    mode: '0755'
+    owner: docker
+    group: docker
+
+- name: Copy docker-compose
+  ansible.builtin.copy:
+    src: docker-compose.yaml
+    dest: /app/inbox-bot/docker-compose.yaml
+    owner: docker
+    group: docker
+    mode: '0644'
+
+- name: Tear down existing services
+  community.docker.docker_compose:
+    project_src: /app/inbox-bot
+    state: absent
+
+- name: Create and start services
+  community.docker.docker_compose:
+    project_src: /app/inbox-bot
+  environment:
+        KAFKA_BROKERS: {{ lookup('ansible.builtin.env', 'KAFKA_BROKERS', default = 'localhost:29092') }}
+        TG_BOT_TOKEN: {{ lookup('ansible.builtin.env', 'INBOX_BOT_TOKEN') }}
+        NOTION_TOKEN: {{ lookup('ansible.builtin.env', 'INBOX_NOTION_TOKEN') }}
+        NOTION_DB: {{ lookup('ansible.builtin.env', 'INBOX_NOTION_DB') }}
