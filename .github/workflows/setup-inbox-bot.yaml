@@ -38,7 +38,7 @@ jobs:
         env:
           AWS_EC2_ACCESS_KEY: ${{ secrets.AWS_EC2_ACCESS_KEY }}
           AWS_EC2_SECRET_KEY: ${{ secrets.AWS_EC2_SECRET_KEY }}
-          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
-          NOTION_DB: ${{ secrets.NOTION_DB }}
+          INBOX_BOT_TOKEN: ${{ secrets.INBOX_BOT_TOKEN }}
+          INBOX_NOTION_TOKEN: ${{ secrets.INBOX_NOTION_TOKEN }}
+          INBOX_NOTION_DB: ${{ secrets.INBOX_NOTION_DB }}
           KAFKA_BROKERS: kafka:29092
