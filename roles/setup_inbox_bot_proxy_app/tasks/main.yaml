@@ -8,5 +8,5 @@
     networks:
       - name: "{{ DOCKER_NETWORK_NAME }}"
     env:
-      TG_BOT_TOKEN: "{{ lookup('env', 'TG_BOT_TOKEN') }}"
-      KAFKA_BROKERS: "{{ lookup('env', 'KAFKA_BROKERS') }}"
+      KAFKA_BROKERS: "{{ lookup('ansible.builtin.env', 'KAFKA_BROKERS') }}"
+      TG_BOT_TOKEN: "{{ lookup('ansible.builtin.env', 'INBOX_BOT_TOKEN') }}"

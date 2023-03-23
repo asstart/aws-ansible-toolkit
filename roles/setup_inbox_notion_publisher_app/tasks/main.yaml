@@ -9,5 +9,5 @@
       - name: "{{ DOCKER_NETWORK_NAME }}"
     env:
       KAFKA_BROKERS: "{{ lookup('env', 'KAFKA_BROKERS') }}"
-      NOTION_TOKEN: "{{ lookup('env', 'NOTION_TOKEN') }}"
-      NOTION_DB: "{{ lookup('env', 'NOTION_DB') }}"
+      NOTION_TOKEN: "{{ lookup('ansible.builtin.env', 'INBOX_NOTION_TOKEN') }}"
+      NOTION_DB: "{{ lookup('ansible.builtin.env', 'INBOX_NOTION_DB') }}"
