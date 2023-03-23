@@ -44,7 +44,7 @@ services:
     networks:
       - app_network
     container_name: ${KAFKA_CONTAINER_NAME}
-  
+
 networks:
   app_network:
     name: ${DOCKER_NETWORK_NAME}
