@@ -1,0 +1,12 @@
+---
+- name: Start tg-inbox-proxy container
+  become: true
+  become_user: docker
+  community.docker.docker_container:
+    name: "{{ TG_INBOX_PROXY_CONTAINER_NAME }}"
+    image: javaster/tg-inbox-proxy:latest
+    networks:
+      - name: "{{ DOCKER_NETWORK_NAME }}"
+    env:
+      TG_BOT_TOKEN: "{{ lookup('env', 'TG_BOT_TOKEN') }}"
+      KAFKA_BROKERS: "{{ lookup('env', 'KAFKA_BROKERS') }}"

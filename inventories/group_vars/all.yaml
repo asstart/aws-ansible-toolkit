@@ -15,3 +15,11 @@ PROVISION_EC2_KEYPAIR: main-key-pair
 PROVISION_EC2_NUMBER_OF_INSTANCES: 1
 SSH_PRIVATE_KEY_PATH: "{{ lookup('ansible.builtin.env', 'AWS_SSH_PRIVATE_KEY_PATH', default = '~/.ssh/id_rsa') }}"
 SSH_USER: ubuntu
+# Name of default docker network
+DOCKER_NETWORK_NAME: default-docker-network
+
+TG_INBOX_PROXY_CONTAINER_NAME: tg-inbox-proxy
+
+INBOX_NOTION_PUBLISHER_CONTAINER_NAME: notion-inbox-publisher
+
+KAFKA_CONTAINER_NAME: kafka
