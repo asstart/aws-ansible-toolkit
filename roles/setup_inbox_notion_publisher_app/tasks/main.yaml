@@ -1,0 +1,13 @@
+---
+- name: Start inbox--notion-publisher container
+  become: true
+  become_user: docker
+  community.docker.docker_container:
+    name: "{{ INBOX_NOTION_PUBLISHER_CONTAINER_NAME }}"
+    image: javaster/notion-inbox-publisher:latest
+    networks:
+      - name: "{{ DOCKER_NETWORK_NAME }}"
+    env:
+      KAFKA_BROKERS: "{{ lookup('env', 'KAFKA_BROKERS') }}"
+      NOTION_TOKEN: "{{ lookup('env', 'NOTION_TOKEN') }}"
+      NOTION_DB: "{{ lookup('env', 'NOTION_DB') }}"
