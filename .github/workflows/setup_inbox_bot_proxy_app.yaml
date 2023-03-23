@@ -38,3 +38,5 @@ jobs:
         env:
           AWS_EC2_ACCESS_KEY: ${{ secrets.AWS_EC2_ACCESS_KEY }}
           AWS_EC2_SECRET_KEY: ${{ secrets.AWS_EC2_SECRET_KEY }}
+          INBOX_BOT_TOKEN: ${{ secrets.INBOX_BOT_TOKEN }}
+          KAFKA_BROKERS: kafka:29092
