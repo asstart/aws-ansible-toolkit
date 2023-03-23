@@ -8,7 +8,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
       ZK_SERVER_HEAP: 256
     networks:
-      - ${DOCKER_NETWORK_NAME}
+      - app_network
 
   kafka:
     # "`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-
@@ -42,5 +42,10 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_HEAP_OPTS: "-Xmx512M -Xms512M"
     networks:
-      - ${DOCKER_NETWORK_NAME}
+      - app_network
     container_name: ${KAFKA_CONTAINER_NAME}
+  
+networks:
+  app_network:
+    name: ${DOCKER_NETWORK_NAME}
+    external: true
