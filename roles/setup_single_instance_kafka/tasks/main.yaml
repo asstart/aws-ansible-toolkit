@@ -23,7 +23,7 @@
 - name: Create and start services
   community.docker.docker_compose:
     project_src: /app/kafka
-    environment:
-      DOCKER_NETWORK_NAME: "{{ DOCKER_NETWORK_NAME }}"
-      KAFKA_CONTAINER_NAME: "{{ KAFKA_CONTAINER_NAME }}"
+  environment:
+    DOCKER_NETWORK_NAME: "{{ DOCKER_NETWORK_NAME }}"
+    KAFKA_CONTAINER_NAME: "{{ KAFKA_CONTAINER_NAME }}"
   register: output
