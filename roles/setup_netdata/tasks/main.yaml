@@ -1,0 +1,34 @@
+---
+- name: Add Netdata GPG key
+  ansible.builtin.get_url:
+    url: https://repo.netdata.cloud/netdatabot.gpg.key
+    dest: /tmp/netdatagpg
+
+- name: Create a directory for keyring if it does not exist
+  ansible.builtin.file:
+    path: /etc/netdata/keyrings
+    state: directory
+    mode: '0755'
+    owner: ubuntu
+    group: ubuntu
+
+- name: De-Armor Netdata GPG key
+  ansible.builtin.shell: gpg --dearmor < /tmp/netdatagpg > /etc/netdata/keyrings/netdata-archive-keyring.gpg
+  changed_when: false
+  no_log: true
+
+- name: Add Netdata repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64 signed-by=/etc/netdata/keyrings/netdata-archive-keyring.gpg]  https://repo.netdata.cloud/repos/repoconfig focal stable
+    state: present
+
+- name: Install Netdata
+  ansible.builtin.apt:
+    name:
+      - netdata
+    state: present
+
+- name: Restart Docker service
+  ansible.builtin.systemd:
+    name: netdata
+    state: start
