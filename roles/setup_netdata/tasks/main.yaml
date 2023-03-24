@@ -19,7 +19,7 @@
 
 - name: Add Netdata repository
   ansible.builtin.apt_repository:
-    repo: deb [arch=amd64 signed-by=/etc/netdata/keyrings/netdata-archive-keyring.gpg] https://repo.netdata.cloud/repos/repoconfig jammy
+    repo: deb [arch=amd64 signed-by=/etc/netdata/keyrings/netdata-archive-keyring.gpg] https://repo.netdata.cloud/repos/stable/ubuntu jammy
     state: present
 
 - name: Install Netdata
