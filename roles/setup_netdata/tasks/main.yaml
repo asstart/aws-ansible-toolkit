@@ -31,4 +31,4 @@
 - name: Restart Docker service
   ansible.builtin.systemd:
     name: netdata
-    state: start
+    state: started
