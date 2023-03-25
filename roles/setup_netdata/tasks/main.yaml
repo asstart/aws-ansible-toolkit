@@ -28,7 +28,7 @@
       - netdata
     state: present
 
-- name: Restart Docker service
+- name: Start Netdata service
   ansible.builtin.systemd:
     name: netdata
     state: started
